@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	
+	<!-- old jquery -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+
+	<!-- requirejs -->
+	<script data-main="js/config" src="http://requirejs.org/docs/release/2.3.5/minified/require.js"></script>
+</head>
+<body>
+jQuery versions:
+</body>
+
+<script type="text/javascript">
+
+	//using old jquery
+	console.log(jQuery().jquery);
+
+	$(()=>{
+		$("body").append($("<div/>").text(jQuery().jquery));
+
+		//load other version jquery by requirejs, see `js/config.js`
+	    require(['config'], () => {
+	        require(['main-jquery2'], () => {
+				$("body").append($("<div/>").text(jQuery().jquery));
+	    	});
+
+	    	require(['main-jquery3'], () => {
+	        	$("body").append($("<div/>").text(jQuery().jquery));
+	    	});
+	    });
+
+	    // load new jquery using old jquery
+	    $.get("https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js", (res) => {
+	    	((jq) => {
+	    		eval(jq);
+	    		console.log(`Without requirejs: ${jQuery().jquery}`);
+	    		$("body").append($("<div/>").text(`Without requirejs: ${jQuery().jquery}`));
+	    	})(res);
+	    });
+	});
+</script>
+
+</html>
